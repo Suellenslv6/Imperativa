@@ -102,12 +102,8 @@ public class lista {
             System.out.print("Digite a largura do azulejo: ");
             double larguraA = s.nextDouble();
 
-            // Cálculo da área da parede e do azulejo
-            double areaParede = alturaP * larguraP;
-            double areaAzulejo = alturaA * larguraA;
-
-            // Cálculo da quantidade de azulejos necessários
-            int quantidadeAzulejos = (int) Math.ceil(areaParede / areaAzulejo);
+            // Chamada da função
+            int quantidadeAzulejos = calcularQuantidadeAzulejos(alturaP, larguraP, alturaA, larguraA);
 
             // Exibição
             System.out.println("Quantidade de azulejos necessários: " + quantidadeAzulejos);
@@ -133,11 +129,8 @@ public class lista {
             System.out.print("Digite o tempo em Segundos");
             double tempo = s.nextDouble();
 
-            //Aceleração da gravidade
-            double g = 9.81;
-
-            //Cálculo da potência
-            double potencia = (massa * g * altura) / tempo;
+            //Chamada da função
+            double potencia = calcularPotencia(massa, altura, tempo);
 
             //conversão para horsepower
             double hp = potencia / 745.6999;
@@ -151,30 +144,28 @@ public class lista {
             System.out.print("Digite um número: ");
             int numero = s.nextInt();
 
-            //Cálculo do fatorial
-            int fatorial = 1;
-            for (int i = 1; i <= numero; i++) {
-                fatorial *= i;
-        }
+            //Chamada da função
+            int fatorial = calcularFatorial(numero);
 
             //Exibição
-            System.out.printf("O fatorial de %d é: %d%n", fatorial);
+            System.out.printf("Fatorial: %d%n", fatorial);
          
         } else if (opcao == 8) {
 
             //Leitura
-            System.out.print("Digite qualquer núemro; ");
+            System.out.print("Digite qualquer número: ");
             int numero = s.nextInt();
 
-            //transformação
-            int horas = numero / 3600;
-            int minutos = (numero % 3600) / 60;
-            int segundosR = numero % 60;
+            //Chamada da função
+            int[] tempo = converterSegundos(numero);
+            int horas = tempo[0];
+            int minutos = tempo[1];
+            int segundosR = tempo[2];
 
             //Exibição
-            System.out.printf("%d hora(s)" , horas);
-            System.out.printf("%d minuto(s)", minutos);
-            System.out.printf("%d segundo(s)", segundosR);
+            System.out.printf("%d hora(s)%n", horas);
+            System.out.printf("%d minuto(s)%n", minutos);
+            System.out.printf("%d segundo(s)%n", segundosR);
 
         } else if (opcao == 9) {
 
@@ -186,17 +177,19 @@ public class lista {
 
              //Leitura das notas
              for (int i = 0; i < quantAlunos; i++) {
-                System.out.print("Digite a nota do aluno " + (i + 1) + ": ");
+                System.out.println("Aluno " + (i + 1) + ":");
                 System.out.print("Nota 1: ");
                 double nota1 = s.nextDouble();
                 System.out.print("Nota 2: ");
                 double nota2 = s.nextDouble();
+                System.out.print("Nota 3: ");
+                double nota3 = s.nextDouble();
 
             //Cálculo da média
-            double media = (nota1 + nota2) / 2; 
+            double media = (nota1 + nota2 + nota3) / 3; 
             String situacao = verSituacao(media);
             notas[i] = media;
-            System.out.printf("A média do aluno %d é: %.2f - Situação: %s%n", (i + 1), media, situacao);
+            System.out.printf("Aluno %d - Média: %.1f - %s%n", (i + 1), media, situacao);
             }
 
             //Cálculo da média da turma
@@ -207,11 +200,9 @@ public class lista {
             double mediaTurma = somaNotas / quantAlunos;
 
             //Exibição
-            System.out.printf("A média da turma é: %.2f%n", mediaTurma);
+            System.out.printf("Média geral da turma: %.1f%n", mediaTurma);
 
-        s.close();
-        
-        } if (opcao == 10) {
+        } else if (opcao == 10) {
 
     //Leitura dos preços até digitar 0
     double[] precos = new double[100]; // tamanho máximo arbitrário
@@ -251,14 +242,14 @@ public class lista {
         //Funções
         int maior = maiorNumero(num);
         int menor = menorNumero(num);
-        Double pares = numerosPares(num);
-        Double media = mediaNumeros(num);
+        int pares = numerosPares(num);
+        double media = mediaNumeros(num);
 
         //Exibição
-        System.out.println("O maior número é: " + maior);
-        System.out.println("O menor número é: " + menor);       
-        System.out.println("A quantidade de números pares é: " + pares);
-        System.out.println("A média dos números é: " + media);
+        System.out.println("Maior número: " + maior);
+        System.out.println("Menor número: " + menor);       
+        System.out.println("Quantidade de pares: " + pares);
+        System.out.printf("Média: %.1f%n", media);
 
     } else if (opcao == 12) {
 
@@ -293,9 +284,7 @@ public class lista {
         System.out.printf("Menor número: %d%n", menor);
         System.out.printf("Quantidade de pares: %d%n", qtdPares);
         System.out.printf("Quantidade de ímpares: %d%n", qtdImpares);
-    } else {
-            System.out.println("Opção inválida.");
-        }
+    }
 
     }
 
@@ -463,7 +452,7 @@ public class lista {
 
     public static int maiorNumero(int[] numeros){
         int maior = numeros[0];
-        for (int i = 1; i < 10; i++){
+        for (int i = 1; i < numeros.length; i++){
             if (numeros[i] > maior){
                 maior = numeros[i];
             }
@@ -473,7 +462,7 @@ public class lista {
 
     public static int menorNumero(int[] numeros){
         int menor = numeros[0];
-        for (int i = 1; i < 10; i++){
+        for (int i = 1; i < numeros.length; i++){
             if (numeros[i] < menor){
                 menor = numeros[i];
             }
@@ -481,9 +470,9 @@ public class lista {
         return menor;
     }
 
-    public static double numerosPares(int[] numeros){
+    public static int numerosPares(int[] numeros){
         int pares = 0;
-        for (int i = 0; i < 10; i++){
+        for (int i = 0; i < numeros.length; i++){
             if (numeros[i] % 2 == 0){
                 pares++;
             }
@@ -492,10 +481,10 @@ public class lista {
     }
      public static double mediaNumeros(int[] numeros){
         int soma = 0;
-        for (int i = 0; i < 10; i++){
+        for (int i = 0; i < numeros.length; i++){
             soma += numeros[i];
         }
-        return (double) soma / 10;
+        return (double) soma / numeros.length;
 
     }
 
